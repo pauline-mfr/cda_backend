@@ -1,9 +1,9 @@
 const express = require('express');
+const router = express.Router();
 // const db = require("../config/db");
 
 const categoryController = require('../controllers/category.controller');
 
-const router = express.Router();
 
 router.get("/", categoryController.getAll);
 router.get('/:id', categoryController.getById);

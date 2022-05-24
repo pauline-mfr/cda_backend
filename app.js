@@ -5,8 +5,12 @@ const express = require('express');
 //création app express
 const app = express();
 
-//pour permettre l'accès au corps json d'une request grâce au req.body
-// app.use(express.json());
+// ROUTES
+const usersRouter = require('./routes/users.router');
+const categoriesRouter = require('./routes/categories.router');
+const levelsRouter = require('./routes/levels.router');
+const countriesRouter = require('./routes/countries.router');
+
 
 //db connexion
 // const db = require('./config/db');
@@ -28,10 +32,13 @@ app.use((req, res, next) => {
 
 // chaque app.use() == middleware qui doit renvoyer au suivant
 
+//pour permettre l'accès au corps json d'une request grâce au req.body
+app.use(express.json());
 
-// ROUTES
-const categoriesRoutes = require('./routes/categories');
-app.use('/categories', categoriesRoutes);
+app.use('/auth', usersRouter);
+app.use('/categories', categoriesRouter);
+app.use('/levels', levelsRouter);
+app.use('/countries', countriesRouter);
 
 //permet d'y accéder depuis les autres fichiers
 module.exports = app;

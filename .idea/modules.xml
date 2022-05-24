@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../cda-project/.idea/cda-project.iml" filepath="$PROJECT_DIR$/../cda-project/.idea/cda-project.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/cda_backend.iml" filepath="$PROJECT_DIR$/.idea/cda_backend.iml" />
     </modules>
   </component>

@@ -1,33 +1,31 @@
 const sql = require('../config/db');
 
-const Category = function(category) {
-    this.id = category.id;
-    this.name = category.name;
+const Level = function(level) {
+    this.id = level.id;
+    this.number = level.number;
 };
 
-Category.getAll = (result) => {
-    let query = "SELECT * FROM category";
-
-    sql.query(query, (err, res) => {
+Level.getAll = (result) => {
+    sql.query("SELECT * FROM level", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
-        console.log("categories: ", res);
+        console.log("levels: ", res);
         result(null, res);
-    });
-};
+    })
+}
 
-Category.getById = (id, result) => {
-    sql.query(`SELECT * FROM category WHERE id = ${id}`, (err, res) => {
+Level.getById = (id, result) => {
+    sql.query(`SELECT * FROM level WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
         if (res.length) {
-            console.log("found category: ", res[0]);
+            console.log("found level: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -35,4 +33,4 @@ Category.getById = (id, result) => {
     });
 };
 
-module.exports = Category;
+module.exports = Level;
