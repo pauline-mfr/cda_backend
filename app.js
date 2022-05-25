@@ -10,11 +10,8 @@ const usersRouter = require('./routes/users.router');
 const categoriesRouter = require('./routes/categories.router');
 const levelsRouter = require('./routes/levels.router');
 const countriesRouter = require('./routes/countries.router');
-
-
-//db connexion
-// const db = require('./config/db');
-// const mysql = require('mysql');
+const questionsRouter = require('./routes/questions.router');
+const choicesRouter = require('./routes/choices.router');
 
 // TEST
 const square = require('./config/db.config');
@@ -39,9 +36,38 @@ app.use('/auth', usersRouter);
 app.use('/categories', categoriesRouter);
 app.use('/levels', levelsRouter);
 app.use('/countries', countriesRouter);
+app.use('/question', questionsRouter);
+app.use('/choices', choicesRouter);
 
 //permet d'y accéder depuis les autres fichiers
 module.exports = app;
+
+
+
+//TO DO
+
+/*
+* delete return
+* voir si modif SELECT *
+* vérif question + choices routes
+*
+* */
+
+
+
+
+
+
+
+
+
+
+
+
+
+//db connexion
+// const db = require('./config/db');
+// const mysql = require('mysql');
 
 
 

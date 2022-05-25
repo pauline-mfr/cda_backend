@@ -16,7 +16,7 @@ exports.getById = (req, res) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found Level with id ${req.params.id}.`
+                    message: `Level not found with id ${req.params.id}.`
                 });
             } else {
                 res.status(500).send({
