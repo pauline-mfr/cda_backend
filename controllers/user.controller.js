@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
 
 const User = require('../models/user.model');
 
@@ -35,12 +36,45 @@ exports.login = (req, res) => {
             });
         if (data.length > 0) {
             //username is found
-            bcrypt.compare(req.body.password, data[0].password)
-                .then(valid => {
-                    console.log('user', data)
-                    res.status(200).send('User allowed')
-                })
-                .catch(err => res.status(404).send('Incorrect username and/or password!'))
+            //refactor compare()
+             bcrypt.compare(req.body.password, data[0].password, (err, result) => {
+                    if (err) { throw (err); }
+                    if (result === true) {
+                        console.log('user allowed');
+                        res.status(200).json({
+                            user: req.body.username,
+                            message: 'User allowed',
+                            token: jwt.sign(
+                            { user: req.body.username },
+                            'SECRET_KEY',
+                            { expiresIn: '24h' }
+                            )
+                        });
+                    } else {
+                        console.log('not matching')
+                        res.status(404).send('Incorrect username and/or password!')
+                    }
+                });
+            // bcrypt.compare(req.body.password, data[0].password)
+            //     .then(valid => {
+            //         console.log(req.body.password)
+            //         console.log(data[0].password)
+            //         console.log('user', data)
+            //         //TOKEN
+            //         res.status(200).send('User allowed')
+            //         // res.status(200).json({
+            //         //     user: req.body.username,
+            //         //     message: 'User allowed',
+            //         //     token: jwt.sign(
+            //         //         { user: req.body.username },
+            //         //         'SECRET_KEY',
+            //         //         { expiresIn: '24h' }
+            //         //     )
+            //         // });
+            //     })
+            //     .catch(err => res.status(404).send('Incorrect username and/or password!'))
+
+
         }
         else res.status(404).send('Incorrect username and/or password!');
     });
