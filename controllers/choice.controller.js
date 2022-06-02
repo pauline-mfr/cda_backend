@@ -1,11 +1,11 @@
 const Choice = require('../models/choice.model');
 
 exports.getChoices = (req, res) => {
-    Choice.getChoices(req.params.question_id, (err, data) => {
+    Choice.getChoices(req.params.question, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message : `Choices not found with question_id ${req.params.question_id}.`
+                    message : `Choices not found with question_id ${req.params.question}.`
                 });
             } else {
                 res.status(500).send({

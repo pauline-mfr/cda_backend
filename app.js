@@ -15,7 +15,7 @@ const choicesRouter = require('./routes/choices.router');
 
 // TEST
 const square = require('./config/db.config');
-console.log('area = ', square.area(4));
+// console.log('area = ', square.area(4));
 
 //middleware appliqué à toutes les requêtes
 //permet à l'API d'être accessible partout, erreur de CORS
@@ -36,7 +36,7 @@ app.use('/auth', usersRouter);
 app.use('/categories', categoriesRouter);
 app.use('/levels', levelsRouter);
 app.use('/countries', countriesRouter);
-app.use('/question', questionsRouter);
+app.use('/questions', questionsRouter);
 app.use('/choices', choicesRouter);
 
 //permet d'y accéder depuis les autres fichiers
