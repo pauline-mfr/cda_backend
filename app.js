@@ -12,6 +12,7 @@ const levelsRouter = require('./routes/levels.router');
 const countriesRouter = require('./routes/countries.router');
 const questionsRouter = require('./routes/questions.router');
 const choicesRouter = require('./routes/choices.router');
+const progressionController = require('./routes/progression.router');
 
 // TEST
 const square = require('./config/db.config');
@@ -38,6 +39,7 @@ app.use('/levels', levelsRouter);
 app.use('/countries', countriesRouter);
 app.use('/questions', questionsRouter);
 app.use('/choices', choicesRouter);
+app.use('/progression', progressionController);
 
 //permet d'y accéder depuis les autres fichiers
 module.exports = app;
