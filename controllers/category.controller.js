@@ -7,7 +7,9 @@ exports.getAll = (req, res) => {
                 message:
                     err.message || "Some error occurred while retrieving categories."
             });
-        else res.status(200).send(data);
+        else {
+            res.status(200).send(data);
+        }
     });
 };
 

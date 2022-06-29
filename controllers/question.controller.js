@@ -19,6 +19,8 @@ exports.getRandomQuiz = (req, res) => {
 
 exports.getQuiz = (req, res) => {
     Question.getQuiz(req.params.country, req.params.category,(err, data) => {
+        console.log('category', req.params.category)
+        console.log('country', req.params.country)
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({

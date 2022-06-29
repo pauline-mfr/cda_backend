@@ -8,3 +8,4 @@ router.get('/', auth, levelController.getAll);
 router.get('/:id', auth, levelController.getById);
 
 module.exports = router;
+

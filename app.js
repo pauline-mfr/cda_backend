@@ -16,6 +16,7 @@ const progressionController = require('./routes/progression.router');
 
 // TEST
 const square = require('./config/db.config');
+const jwt = require("jsonwebtoken");
 // console.log('area = ', square.area(4));
 
 //middleware appliqué à toutes les requêtes
@@ -23,10 +24,18 @@ const square = require('./config/db.config');
 app.use((req, res, next) => {
    //on ajoute des headers à nos réponses json
     res.setHeader('Access-Control-Allow-Origin', '*'); //origin = all
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'); //allow headers
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization, x-access-token'); //allow headers
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); //allow methods
-    next();
+    if('OPTIONS' === req.method) {
+        res.sendStatus(200);
+    } else {
+        next();
+
+    }
 });
+
+const cookieParser = require('cookie-parser');
+app.use(cookieParser())
 
 // chaque app.use() == middleware qui doit renvoyer au suivant
 

@@ -31,4 +31,6 @@ User.create = (user, result) => {
     })
 };
 
+// User.getUser = ()
+
 module.exports = User;

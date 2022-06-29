@@ -3,10 +3,11 @@ const router = express.Router();
 // const db = require("../config/db");
 
 const categoryController = require('../controllers/category.controller');
+const auth = require("../middleware/auth");
 
 
-router.get("/", categoryController.getAll);
-router.get('/:id', categoryController.getById);
+router.get("/", auth, categoryController.getAll);
+router.get('/:id', auth, categoryController.getById);
 
 
 module.exports = router;
