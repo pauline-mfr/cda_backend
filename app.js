@@ -48,7 +48,7 @@ app.use('/levels', levelsRouter);
 app.use('/countries', countriesRouter);
 app.use('/questions', questionsRouter);
 app.use('/choices', choicesRouter);
-app.use('/progression', progressionController);
+app.use('/score', progressionController);
 
 //permet d'y accéder depuis les autres fichiers
 module.exports = app;

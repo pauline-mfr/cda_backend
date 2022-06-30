@@ -9,7 +9,7 @@ const Progression = function (quiz) {
 }
 
 Progression.getCategoryScore = (user, category, country, results) => {
-    sql.query(`SELECT score FROM progression WHERE user_id = ${user} AND category_id = ${category} AND country_id = ${country}`, (err, res) => {
+    sql.query(`SELECT id, score FROM progression WHERE user_id = ${user} AND category_id = ${category} AND country_id = ${country}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             results(null, err);
@@ -33,7 +33,45 @@ Progression.getCountryScore = (user, country, results) => {
 }
 
 //get level score
-Progression.getLevelScore = () => {
+Progression.getLevelScore = (user, level, result) => {
+    //res tab
+    let test = 0;
+
+    sql.query(`SELECT id FROM country WHERE level_id = ${level}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            // res = IDs of level countries
+            console.log("found countries of this level: ", res);
+
+            //loop through IDs
+            for (let country_id in res) {
+                console.log(res[country_id].id)
+                sql.query(`SELECT SUM(score) AS score FROM progression WHERE user_id = ${user} AND country_id = ${res[country_id].id}`, (err, res) => {
+                    if (err) {
+                        console.log("error: ", err);
+                        result(err, null);
+                        return;
+                    }
+                    if (res.length) {
+                        console.log("found score of this country: ", res[0].score);
+                        test += res[0].score
+                        //result(null, res);
+                        // return;
+                    }
+                })
+            console.log('test',test)
+
+            } //end of loop
+        }
+            console.log('test',test)
+        result({ kind: "not_found" }, null);
+    })
+
+            console.log('test',test)
 
 }
 
@@ -50,8 +88,8 @@ Progression.create = (progression, result) => {
 }
 
 //update quiz score
-Progression.update = (user, category, country, score, result) => {
-    sql.query(`UPDATE progression SET score = ${score} WHERE user_id = ${user} AND category_id = ${category} AND country_id = ${country}`, (err, res) => {
+Progression.update = (id, score, result) => {
+    sql.query(`UPDATE progression SET score = ${score} WHERE id = ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

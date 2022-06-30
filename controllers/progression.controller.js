@@ -37,6 +37,16 @@ exports.getCountryScore = (req, res) => {
     });
 }
 
+exports.getLevelScore = (req, res) => {
+    Progression.getLevelScore(req.params.user, req.params.level, (err, data) => {
+        if (err) {
+            res.send(
+                err.message || "Some error occurred while retrieving level score"
+            )
+        } else res.status(200).send(data);
+    });
+}
+
 exports.create = (req, res) => {
     Progression.create(req.body, (err, data) => {
         console.log('progr', req.body)
@@ -45,5 +55,16 @@ exports.create = (req, res) => {
                 err.message || "Some error occurred while creating score"
             );
         } else res.status(200).send(data);
+    });
+}
+
+exports.update = (req, res) => {
+    Progression.update(req.params.id, req.params.score, (err, data) => {
+        console.log('params',req.params)
+        if (err) {
+            res.send(
+                    err.message || "Some error occurred while retrieving score"
+                );
+            } else res.status(200).send(data);
     });
 }
