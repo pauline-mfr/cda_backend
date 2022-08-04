@@ -8,7 +8,8 @@ const auth = require("../middleware/auth");
 
 router.get("/", auth, categoryController.getAll);
 router.get('/:id', auth, categoryController.getById);
-
+router.get('/:id/next', auth, categoryController.getNextCategory);
+router.get('/identifier/:name', auth, categoryController.getIdentifier);
 
 module.exports = router;
 

@@ -1,7 +1,7 @@
 const sql = require('../config/db');
 
 const Progression = function (quiz) {
-    // this.id = quiz.id;
+    this.id = quiz.id;
     this.user_id = quiz.user_id;
     this.category_id = quiz.category_id;
     this.country_id = quiz.country_id;
@@ -32,47 +32,64 @@ Progression.getCountryScore = (user, country, results) => {
     })
 }
 
-//get level score
 Progression.getLevelScore = (user, level, result) => {
-    //res tab
-    let test = 0;
-
-    sql.query(`SELECT id FROM country WHERE level_id = ${level}`, (err, res) => {
+    sql.query(`SELECT SUM(score) AS score FROM progression INNER JOIN country ON progression.country_id = country.id WHERE level = ${level} AND user_id = ${user}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
-            result(err, null);
+            result(null, err);
             return;
         }
-        if (res.length) {
-            // res = IDs of level countries
-            console.log("found countries of this level: ", res);
-
-            //loop through IDs
-            for (let country_id in res) {
-                console.log(res[country_id].id)
-                sql.query(`SELECT SUM(score) AS score FROM progression WHERE user_id = ${user} AND country_id = ${res[country_id].id}`, (err, res) => {
-                    if (err) {
-                        console.log("error: ", err);
-                        result(err, null);
-                        return;
-                    }
-                    if (res.length) {
-                        console.log("found score of this country: ", res[0].score);
-                        test += res[0].score
-                        //result(null, res);
-                        // return;
-                    }
-                })
-            console.log('test',test)
-
-            } //end of loop
-        }
-            console.log('test',test)
-        result({ kind: "not_found" }, null);
+        console.log("level score: ", res);
+        result(null, res);
     })
+}
 
-            console.log('test',test)
+Progression.getTotalQuestions = (user, result) => {
+    sql.query(`SELECT COUNT(id) AS total FROM progression WHERE user_id = ${user}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("total answered questions: ", res);
+        result(null, res);
+    })
+}
 
+Progression.getTotalCorrectAnswers = (user, result) => {
+    sql.query(`SELECT SUM(score) AS total FROM progression WHERE user_id = ${user}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("total correct answers: ", res);
+        result(null, res);
+    })
+}
+
+Progression.getAverageScore = (user, result) => {
+    sql.query(`SELECT AVG(score) AS average FROM progression WHERE user_id = ${user}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("average score: ", res);
+        result(null, res);
+    })
+}
+
+Progression.getBestCategory = (user, result) => {
+    sql.query(`SELECT category_id, SUM(score) AS best FROM progression WHERE user_id = ${user} GROUP BY category_id ORDER BY best DESC LIMIT 1`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("best category: ", res);
+        result(null, res);
+    })
 }
 
 Progression.create = (progression, result) => {
@@ -87,7 +104,6 @@ Progression.create = (progression, result) => {
     })
 }
 
-//update quiz score
 Progression.update = (id, score, result) => {
     sql.query(`UPDATE progression SET score = ${score} WHERE id = ${id}`, (err, res) => {
         if (err) {

@@ -4,25 +4,26 @@ const jwt = require("jsonwebtoken");
 const User = require('../models/user.model');
 
 exports.authenticateToken = (req, res) => {
-    // const token = localStorage.getItem('access_token');
-    // const token = req.headers.authorization.split(' ')[1];
-    //
-    const token = req.headers.cookie;
-    console.log('token',token)
-
-    // if (token == null) {
-    //     return res.sendStatus(401)
-    // } else {
-    //
-    //     jwt.verify(token, 'SECRET_KEY', (err, data) => {
-    //         if (err) {
-    //             return res.sendStatus(401)
-    //         } else {
-    //             res.status(200).send(data);
-    //         }
-    //
-    //     });
-    // }
+    const token = req.headers.authorization.split(' ')[1];
+    if (token == null) {
+        return res.sendStatus(401)
+    } else {
+        jwt.verify(token, 'SECRET_KEY', (err, data) => {
+            if (err) {
+                return res.sendStatus(401)
+            } else {
+                let username = data.username
+                //request user_id
+                User.getUser(username, (err, data) => {
+                    if (err)
+                        res.status(500).send({
+                            message: err.message || "Some error occurred while retrieving user"
+                        });
+                    else res.status(201).send(data)
+                })
+            }
+        });
+    }
 }
 
 exports.signup = (req, res) => {

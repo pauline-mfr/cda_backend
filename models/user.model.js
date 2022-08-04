@@ -31,6 +31,16 @@ User.create = (user, result) => {
     })
 };
 
-// User.getUser = ()
+User.getUser = (username, result) => {
+    sql.query(`SELECT id, username FROM user WHERE username = '${username}'`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log(res);
+        result(null, res);
+    })
+}
 
 module.exports = User;

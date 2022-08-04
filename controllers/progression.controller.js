@@ -47,6 +47,46 @@ exports.getLevelScore = (req, res) => {
     });
 }
 
+exports.getTotalQuestions = (req, res) => {
+    Progression.getTotalQuestions(req.params.user, (err, data) => {
+        if (err) {
+            res.send(
+                err.message || "Some error occurred while retrieving total questions"
+            )
+        } else res.status(200).send(data);
+    });
+}
+
+exports.getTotalCorrectAnswers = (req, res) => {
+    Progression.getTotalCorrectAnswers(req.params.user, (err, data) => {
+        if (err) {
+            res.send(
+                err.message || "Some error occurred while retrieving correct answers"
+            )
+        } else res.status(200).send(data);
+    });
+}
+
+exports.getAverageScore = (req, res) => {
+    Progression.getAverageScore(req.params.user, (err, data) => {
+        if (err) {
+            res.send(
+                err.message || "Some error occurred while retrieving average score"
+            )
+        } else res.status(200).send(data);
+    });
+}
+
+exports.getBestCategory = (req, res) => {
+    Progression.getBestCategory(req.params.user, (err, data) => {
+        if (err) {
+            res.send(
+                err.message || "Some error occurred while retrieving best category"
+            )
+        } else res.status(200).send(data);
+    });
+}
+
 exports.create = (req, res) => {
     Progression.create(req.body, (err, data) => {
         console.log('progr', req.body)

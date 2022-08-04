@@ -8,17 +8,6 @@ const Question = function (question) {
     this.type = question.type;
 };
 
-Question.getRandomQuiz = (country, results) => {
-    sql.query(`SELECT * FROM question WHERE country_id = ${country} ORDER BY RAND() LIMIT 5`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            results(null, err);
-            return;
-        }
-        console.log("random quiz: ", res);
-        results(null, res);
-    })
-}
 
 Question.getQuiz = (country, category, results) => {
     sql.query(`SELECT * FROM question WHERE country_id = ${country} AND category_id = ${category}`, (err, res) => {
@@ -28,6 +17,18 @@ Question.getQuiz = (country, category, results) => {
             return;
         }
         console.log("quiz: ", res);
+        results(null, res);
+    })
+}
+
+Question.getRandomQuiz = (country, results) => {
+    sql.query(`SELECT * FROM question WHERE country_id = ${country} ORDER BY RAND() LIMIT 5`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            results(null, err);
+            return;
+        }
+        console.log("random quiz: ", res);
         results(null, res);
     })
 }
