@@ -4,8 +4,10 @@ const router = express.Router();
 const questionController = require('../controllers/question.controller');
 const auth = require("../middleware/auth");
 
-router.get('/quiz/:country/:category', auth, questionController.getQuiz);
-router.get('/random/:country', auth, questionController.getRandomQuiz);
-router.get('/:id', auth, questionController.getById);
+router.get('/quiz/:country/:category', questionController.getQuiz);
+router.get('/random/:country', questionController.getRandomQuiz);
+router.get('/:id', questionController.getById);
+
+router.get('/', questionController.getAndroidQuiz);
 
 module.exports = router;

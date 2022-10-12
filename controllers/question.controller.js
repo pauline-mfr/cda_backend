@@ -1,11 +1,28 @@
 const Question = require('../models/question.model')
 
+exports.getAndroidQuiz = (req, res) => {
+    Question.getAndroidQuiz((err, data) => {
+        if (err) {
+            if (err.kind === "not _found") {
+                res.status(404).send({
+                    message: 'Android quiz was not found'
+                });
+            } else {
+                res.status(500).send({
+                    message:
+                    err.message || "Some error occurred while retrieving the quiz."
+                });
+            }
+        } else res.status(200).send(data);
+    })
+}
+
 exports.getRandomQuiz = (req, res) => {
     Question.getRandomQuiz(req.params.country, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message : `Randdom quiz not found for country ${req.params.country}.`
+                    message : `Random quiz not found for country ${req.params.country}.`
                 });
             } else {
                 res.status(500).send({

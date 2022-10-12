@@ -8,7 +8,7 @@ const Choice = function (answer) {
 }
 
 Choice.getChoices = (question, results) => {
-    sql.query(`SELECT * FROM choice WHERE question_id = ${question}`, (err, res) => {
+    sql.query(`SELECT * FROM choice WHERE question_id = ${question} ORDER BY RAND()`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             results(null, err);

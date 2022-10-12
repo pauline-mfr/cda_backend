@@ -4,6 +4,6 @@ const router = express.Router();
 const choiceController = require('../controllers/choice.controller');
 const auth = require("../middleware/auth");
 
-router.get('/:question', auth, choiceController.getChoices);
+router.get('/:question', choiceController.getChoices);
 
 module.exports = router;

@@ -10,7 +10,7 @@ const Question = function (question) {
 
 
 Question.getQuiz = (country, category, results) => {
-    sql.query(`SELECT * FROM question WHERE country_id = ${country} AND category_id = ${category}`, (err, res) => {
+    sql.query(`SELECT * FROM question WHERE country_id = ${country} AND category_id = ${category} ORDER BY RAND()`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             results(null, err);
@@ -30,6 +30,18 @@ Question.getRandomQuiz = (country, results) => {
         }
         console.log("random quiz: ", res);
         results(null, res);
+    })
+}
+
+Question.getAndroidQuiz = (result) => {
+    sql.query(`SELECT * FROM question WHERE type = 'multiple' ORDER BY RAND() LIMIT 5`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("android quiz: ", res);
+        result(null, res);
     })
 }
 
